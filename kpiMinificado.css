@@ -1,0 +1,191 @@
+*{ margin: 0; padding: 0; font-family: Verdana, Geneva, Tahoma, sans-serif}
+
+#container-simplificacao{
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+}
+
+.button{
+  cursor: pointer;
+  position: absolute;
+  display: block;
+}
+
+.svg{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 1px solid #222;
+}
+
+.icone-desempenho{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 5px;
+  right: -5px;
+  width: 50px;
+  height: 50px;
+  font-size: 2rem;
+  color: #FFF;
+  background-color: #222;
+  border-radius: 50%;
+}
+
+.d-none{
+  display: none
+}
+
+.conteudo-modal{
+  position: relative;
+}
+
+.titulo-modal{
+  background-color: #222;
+  text-align: center;
+  font-size: 1.1rem;
+  padding: 15px;
+  color: #FFF
+}
+
+.separador-modal{
+  height: 1px;
+  background-color: #222;
+  margin: 3px 0 10px 0;
+  border: unset;
+  width: 100%;
+}
+
+#container-graficos{
+  height: 350px;
+}
+
+.container-detalhes{
+  margin-top: -7px;
+  background-color: #222;
+  color: #FFF;
+  height: 57px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-detalhes a{
+  color: #FFF;
+  font-size: 1.17rem;
+  text-decoration: none;
+  transition-duration: .5s;
+  user-select: none;
+}
+
+.container-detalhes a:hover{
+  text-decoration: underline
+}
+
+/* Animacoes */
+.abreModal{
+  animation: abreModal .5s forwards
+}
+
+.fechaModal{
+  animation-name: abreModal;
+  animation-duration: .5s;
+  animation-direction: reverse;
+  animation-fill-mode: forwards;
+}
+
+@keyframes abreModal{
+  from{
+    width: 0;
+    height: 0;
+    background-color: transparent;
+    border: 1px solid transparent
+  }
+  to{
+    width: 400px;
+    height: 500px;
+    background-color: #FFF;
+    border: 1px solid #666;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px
+  }
+}
+
+.escondePerfil{
+  animation: ajustaPerfil .5s forwards
+}
+
+.mostraPerfil{
+  animation-name: ajustaPerfil;
+  animation-duration: .5s;
+  animation-direction: reverse;
+  animation-fill-mode: forwards;
+}
+
+@keyframes ajustaPerfil{
+  0%{
+    z-index: 0;
+  }
+  100%{
+    top: 35px;
+    left: 45px;
+    z-index: 2
+  }
+}
+
+.diminuiSvg{
+  animation: ajustaSvg .5s forwards
+}
+
+.aumentaSvg{
+  animation-name: ajustaSvg;
+  animation-duration: .5s;
+  animation-direction: reverse;
+  animation-fill-mode: forwards;
+}
+
+@keyframes ajustaSvg{
+  0%{
+    width: 120px;
+    height: 120px;
+  }
+  100%{
+    width: 80px;
+    height: 80px;
+  }
+}
+
+.diminuiIcone{
+  animation: ajustaIcone .5s forwards
+}
+
+.aumentaIcone{
+  animation-name: ajustaIcone;
+  animation-duration: .5s;
+  animation-direction: reverse;
+  animation-fill-mode: forwards;
+}
+
+@keyframes ajustaIcone{
+  0%{
+    width: 50px;
+    height: 50px;
+    font-size: 2rem;
+    background-color: #222
+  }
+  100%{
+    width: 35px;
+    height: 35px;
+    font-size: 1.5rem;
+    background-color: #E22427
+  }
+}
+
