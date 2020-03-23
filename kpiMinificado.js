@@ -99,6 +99,7 @@
           series: [{name: 'Meta', data: this.valoresMeta}, {name: 'Você', data: this.valoresVoce}, {name: '1º Colocado', data: this.valoresPrimeiro}],
           colors: ['#0367A6', '#FB8C00', '#009921'],
           chart: {
+            width: '100%',
             height: altura,
             type: 'bar',
             stacked: true,
@@ -186,7 +187,19 @@
         }else{
           // não há registros
         }
-      }
+      },
+      // setSeta(seta){
+      //   switch(seta){
+      //     case 'up':
+      //       return '<i class="fas fa-sort-up"></i>';
+      //     case 'down':
+      //       return '<i class="fas fa-sort-down"></i>';
+      //     case 'mesmo':
+      //       return '<i class="fas fa-sort-up"></i>';
+      //     default:
+      //       return '';
+      //   }
+      // }
     },
     mounted(){
       this.requisicaoOpe()
