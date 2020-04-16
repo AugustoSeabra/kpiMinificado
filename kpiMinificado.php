@@ -36,9 +36,6 @@
         <hr class="separador-modal">
         <div id="container-graficos">
           <div id="graficos">  </div>
-          <div class="dicas" aria-label="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed gravida nulla" data-balloon-pos="left">
-            <i class="fas fa-info"></i>
-          </div>
         </div>
         <hr class="separador-modal">
         <div class="container-detalhes">

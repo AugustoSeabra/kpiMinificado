@@ -66,56 +66,7 @@
 
 #container-graficos{
   height: 350px;
-  display: flex;
 }
-
-#graficos{
-  width: 350px;
-}
-
-#todas-dicas{
-  max-width: 50px;
-}
-
-.dicas{
-  width: 49px;
-  border-left: 1px solid rgba(0, 0, 0, .1);
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  position: relative;
-}
-
-/* .seta-direcao{
-  border-radius: 50%;
-  width: 25px;
-  height: 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.seta-direcao.down i{
-  color: #E22427;
-}
-.seta-direcao.up i{
-  color: #3DBC69;
-}
-.seta-direcao.mesmo i{
-  transform: rotate(90deg);
-  color: #FFC72C;
-}
-
-.seta-direcao.ntem::after{
-  color: #666;
-  content: '---';
-  font-weight: 600
-}
-
-.seta-direcao i{
-  font-size: 1.2rem
-} */
 
 .container-detalhes{
   margin-top: -7px;

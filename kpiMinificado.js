@@ -51,6 +51,10 @@
         svg.setAttribute('height', '220px')
       },
       requisicaoSvgAvatar(urlAvatar){
+
+        if(!urlAvatar){
+          urlAvatar = 'https://avataaars.io/?avatarStyle=Circle&topType=NoHair&accessoriesType=Blank&hairColor=Black&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Tanned'
+        }
   
         let objAvatar = {
           url: urlAvatar
@@ -168,13 +172,14 @@
         }
       },
       filtraValores(array){
-        if(!this.verificaGrafVazio()){
-          for(let i = 0; i < array.length; i++){
-            this.valoresMeta.push(array[i].meta)
-            this.valoresVoce.push(array[i].m0)
-            this.valoresPrimeiro.push(array[i].top1)
-            this.todosTitulos.push(array[i].titulo)
-          }
+        if(this.verificaGrafVazio()){ // !this.verificaGrafVazio
+          // Descomentar isso depois
+          // for(let i = 0; i < array.length; i++){
+          //   this.valoresMeta.push(array[i].meta)
+          //   this.valoresVoce.push(array[i].m0)
+          //   this.valoresPrimeiro.push(array[i].top1)
+          //   this.todosTitulos.push(array[i].titulo)
+          // }
 
           for(let i = 0; i < 3; i++){
             this.valoresMeta.push(Math.round(Math.random() * 100))
@@ -186,6 +191,7 @@
           this.criaGrafico()
         }else{
           // não há registros
+          console.log('Não há registros')
         }
       },
       // setSeta(seta){
