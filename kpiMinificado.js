@@ -5,10 +5,12 @@
         estadoModal: false,
         svgAvatar: '',
         dadosTabelaDestaqueS: [],
+        dadosTabelaDestaqueN: [],
         valoresMeta: [],
         valoresVoce: [],
         valoresPrimeiro: [],
-        todosTitulos: []
+        todosTitulos: [],
+        titulo: ''
       }
     },
     methods: {
@@ -16,9 +18,11 @@
         if(this.estadoModal == false){
           this.anima('abrir')
           this.estadoModal = true
+          top.postMessage('abrir', this.getBaseUrlApi())
         }else{
           this.anima('fechar')
           this.estadoModal = false
+          top.postMessage('fechar', this.getBaseUrlApi())
         }
       },
       anima(acao){
@@ -81,7 +85,15 @@
           if(response.status == 'OK'){
             this.requisicaoSvgAvatar(response.operador.avatar)
             this.dadosTabelaDestaqueS = response.kpis.filter(this.filtraTabelaDestaqueS)
-            this.filtraValores(this.dadosTabelaDestaqueS)
+            this.dadosTabelaDestaqueN = response.kpis.filter(this.filtraTabelaDestaqueN)
+            
+            if(!this.verificaGrafVazio(this.dadosTabelaDestaqueS)){
+              this.titulo = 'Principais KPIs'
+              this.filtraValores(this.dadosTabelaDestaqueS)
+            }else{
+              this.titulo = "KPIs"
+              this.filtraValores(this.dadosTabelaDestaqueN)
+            }
           }else{
             console.log('Requisicao ao kpi/operacional falhou, a pagina nao sera renderizada')
             document.querySelector('#container-simplificacao').remove()
@@ -118,7 +130,7 @@
             colors: ['#FFF']
           },
           title: {
-            text: 'Principais KPIs'
+            text: this.titulo
           },
           legend: {
             position: 'top',
@@ -164,29 +176,45 @@
           return value
         }
       },
-      verificaGrafVazio(){
-        if(this.dadosTabelaDestaqueS.length == 0){
+      filtraTabelaDestaqueN(value){
+        if(value.titulo == '' ||  value.status == ''){
+          return
+        }else if(value.destaque !== 'SIM'){
+          if(value.status == 'S' || value.m0 == '' || value.top1_real == '' || value.top1 == '' || value.meta == ''){
+            // return
+            value.meta = 0
+            value.m0 = 0
+            value.top1_real = 0
+            value.top1 = 0
+            value.ranking = 0
+          }
+          return value
+        }
+      },
+      verificaGrafVazio(array){
+        if(array.length == 0){
           return true
         }else{
           return false
         }
       },
       filtraValores(array){
-        if(this.verificaGrafVazio()){ // !this.verificaGrafVazio
-          // Descomentar isso depois
-          // for(let i = 0; i < array.length; i++){
-          //   this.valoresMeta.push(array[i].meta)
-          //   this.valoresVoce.push(array[i].m0)
-          //   this.valoresPrimeiro.push(array[i].top1)
-          //   this.todosTitulos.push(array[i].titulo)
-          // }
+        if(!this.verificaGrafVazio(array)){
 
-          for(let i = 0; i < 3; i++){
-            this.valoresMeta.push(Math.round(Math.random() * 100))
-            this.valoresVoce.push(Math.round(Math.random() * 100))
-            this.valoresPrimeiro.push(Math.round(Math.random() * 100))
-            this.todosTitulos.push('Teste_' + i)
+          for(let i = 0; i < array.length; i++){
+            this.valoresMeta.push(array[i].meta)
+            this.valoresVoce.push(array[i].m0)
+            this.valoresPrimeiro.push(array[i].top1)
+            this.todosTitulos.push(array[i].titulo)
           }
+
+          // Gerar dados de teste
+          // for(let i = 0; i < 3; i++){
+          //   this.valoresMeta.push(Math.round(Math.random() * 100))
+          //   this.valoresVoce.push(Math.round(Math.random() * 100))
+          //   this.valoresPrimeiro.push(Math.round(Math.random() * 100))
+          //   this.todosTitulos.push('Teste_' + i)
+          // }
 
           this.criaGrafico()
         }else{

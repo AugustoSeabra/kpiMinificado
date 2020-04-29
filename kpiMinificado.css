@@ -46,13 +46,23 @@
 
 .conteudo-modal{
   position: relative;
+  height: 100%;
 }
 
 .titulo-modal{
   background-color: #222;
   text-align: center;
-  font-size: 1.1rem;
+  font-size: .9rem;
   padding: 15px;
+  color: #FFF
+}
+
+.titulo-modal h1{
+  margin-right: -35px;
+}
+
+.titulo-modal a{
+  text-decoration: none;
   color: #FFF
 }
 
@@ -65,7 +75,10 @@
 }
 
 #container-graficos{
-  height: 350px;
+  max-height: 250px;
+  overflow-y: auto;
+  scrollbar-color: #736B66 rgba(0,0,0,0.8);
+  scrollbar-width: thin;
 }
 
 .container-detalhes{
@@ -76,18 +89,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.container-detalhes a{
-  color: #FFF;
-  font-size: 1.17rem;
-  text-decoration: none;
-  transition-duration: .5s;
-  user-select: none;
-}
-
-.container-detalhes a:hover{
-  text-decoration: underline
+  position: absolute;
+  width: 100%;
+  bottom: 0;
 }
 
 /* Animacoes */
@@ -110,8 +114,8 @@
     border: 1px solid transparent
   }
   to{
-    width: 400px;
-    height: 500px;
+    width: 350px;
+    height: 400px;
     background-color: #FFF;
     border: 1px solid #666;
     border-top-left-radius: 5px;
