@@ -12,11 +12,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <!-- <title>GAMEK Minificado</title> -->
+  <title>GAMEK Minificado</title>
+  <!-- Bootstrap -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
   integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
   <link rel="stylesheet" href="kpiMinificado.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://www.unpkg.com/vue"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
@@ -42,9 +46,31 @@
         <div id="container-graficos">
           <div id="graficos">  </div>
         </div>
-        <hr class="separador-modal">
+        <!-- <hr class="separador-modal"> -->
         <div class="container-detalhes">
-          
+          <i class="fas fa-robot"></i>
+          <div id="carousel-mensagens" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+            <template v-if="haMensagens">
+              <div class="item" :class="index == 0 ? 'active' :  ''" v-for="(msg, index) in arrMensagens" :key="index">
+                <p>{{ msg.mensagem }}</p>
+              </div>
+            </template>
+            <div v-else>
+              <div class="item active">
+                <p> Não há mensagens para mostrar </p>
+              </div>
+            </div>
+            <!-- <a class="left carousel-control controles" href="#myCarousel" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left"></span>
+              <span class="sr-only">Anterior</span>
+            </a>
+            <a class="right carousel-control controles" href="#myCarousel" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+              <span class="sr-only">Próximo</span>
+            </a> -->
+            </div>
+          </div>
         </div>
       </div>
     </div>

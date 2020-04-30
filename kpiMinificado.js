@@ -10,7 +10,9 @@
         valoresVoce: [],
         valoresPrimeiro: [],
         todosTitulos: [],
-        titulo: ''
+        titulo: '',
+        arrMensagens: [],
+        haMensagens: false,
       }
     },
     methods: {
@@ -100,6 +102,23 @@
           }
         })
       },
+      requisicaoMensagens(){
+        $.get(`${this.getBaseUrlApi()}webservices/intergrall-api/kpi/msg/lista`,
+        (response, status) => {
+          if(status !== 'success'){
+            console.log('Requisição Mensagens Falhou!')
+            return
+          }
+
+          if(response.status == 'OK'){
+            this.arrMensagens = response.mensagens
+            this.haMensagens = true
+          }else{
+            // console.log('Requisição Mensagem Status NOK: ', response)
+            this.haMensagens = false
+          }
+        })
+      },
       getBaseUrlApi(){
         if(window.location.hostname == 'localhost' || window.location.hostname == '192.168.204.126'){
           return 'https://linux03/'
@@ -114,6 +133,7 @@
         var options = {
           series: [{name: 'Meta', data: this.valoresMeta}, {name: 'Você', data: this.valoresVoce}, {name: '1º Colocado', data: this.valoresPrimeiro}],
           colors: ['#0367A6', '#FB8C00', '#009921'],
+          // colors: ["#CCC", "#555", "#AAA"],
           chart: {
             width: '100%',
             height: altura,
@@ -166,13 +186,13 @@
         if(value.titulo == '' ||  value.status == ''){
           return
         }else if(value.destaque == 'SIM'){
-          if(value.status == 'S' || value.m0 == '' || value.top1_real == '' || value.top1 == '' || value.meta == ''){
-            value.meta = 0
-            value.m0 = 0
-            value.top1_real = 0
-            value.top1 = 0
-            value.ranking = 0
-          }
+          // if(value.status == 'S' || value.m0 == '' || value.top1_real == '' || value.top1 == '' || value.meta == ''){
+          //   value.meta = 0
+          //   value.m0 = 0
+          //   value.top1_real = 0
+          //   value.top1 = 0
+          //   value.ranking = 0
+          // }
           return value
         }
       },
@@ -180,14 +200,14 @@
         if(value.titulo == '' ||  value.status == ''){
           return
         }else if(value.destaque !== 'SIM'){
-          if(value.status == 'S' || value.m0 == '' || value.top1_real == '' || value.top1 == '' || value.meta == ''){
-            // return
-            value.meta = 0
-            value.m0 = 0
-            value.top1_real = 0
-            value.top1 = 0
-            value.ranking = 0
-          }
+          // if(value.status == 'S' || value.m0 == '' || value.top1_real == '' || value.top1 == '' || value.meta == ''){
+          //   // return
+          //   value.meta = 0
+          //   value.m0 = 0
+          //   value.top1_real = 0
+          //   value.top1 = 0
+          //   value.ranking = 0
+          // }
           return value
         }
       },
@@ -202,9 +222,9 @@
         if(!this.verificaGrafVazio(array)){
 
           for(let i = 0; i < array.length; i++){
-            this.valoresMeta.push(array[i].meta)
-            this.valoresVoce.push(array[i].m0)
-            this.valoresPrimeiro.push(array[i].top1)
+            this.valoresMeta.push(parseFloat(array[i].meta).toFixed(1))
+            this.valoresVoce.push(parseFloat(array[i].m0).toFixed(1))
+            this.valoresPrimeiro.push(parseFloat(array[i].top1).toFixed(1))
             this.todosTitulos.push(array[i].titulo)
           }
 
@@ -237,5 +257,7 @@
     },
     mounted(){
       this.requisicaoOpe()
+      this.requisicaoMensagens()
+      setInterval(() => { this.requisicaoMensagens() }, 60000)
     },
   })
