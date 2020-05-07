@@ -14,32 +14,37 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>GAMEK Minificado</title>
   <!-- Bootstrap -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="jquery.js"></script>
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <script src="bootstrap.min.js"></script>
 
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
   integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
   <link rel="stylesheet" href="kpiMinificado.css">
-  <script src="https://www.unpkg.com/vue"></script>
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="vue.js"></script>
+  <script src="apexcharts.js"></script>
 </head>
 <!-- <body> -->
-  <div id="container-simplificacao">
+  <div id="container-simplificacao" class="baixo">
     <div class="button" v-on:click="toggleModal()">
       <div class="svg" v-html="svgAvatar"></div>
       <div class="icone-desempenho">
         <i :class="estadoModal == false ? 'fas fa-chart-line' : 'fas fa-times'"></i>
       </div>
     </div>
+    <div class="alterar-posicao" v-if="!estadoModal">
+      <i class="fas fa-long-arrow-alt-up" id="i-alterar" v-on:click="alterarPosicao($event)"></i>
+    </div>
     <div class="container-modal">
       <div class="conteudo-modal d-none">
         <div class="titulo-modal">
           <h1> 
             GAMEK Resumo 
-            <a href="https://linux03/kpi/" target="_blank" title="Abrir GAMEK">
+            <a class="link-gamek" href="javascript:abreSeed()" title="Abrir GAMEK">
               <i class="fas fa-external-link-alt"></i>
             </a>
+            <!-- <a href="https://linux03/kpi/" target="_blank" title="Abrir GAMEK"> -->
+            <!-- </a> -->
           </h1>
         </div>
         <hr class="separador-modal">
@@ -53,6 +58,7 @@
             <div class="carousel-inner">
             <template v-if="haMensagens">
               <div class="item" :class="index == 0 ? 'active' :  ''" v-for="(msg, index) in arrMensagens" :key="index">
+                <i class="far fa-bookmark pointer" v-on:click="marcarMsgLida(msg, index, $event)" :title="txtLido"></i>
                 <p>{{ msg.mensagem }}</p>
               </div>
             </template>
@@ -76,6 +82,32 @@
     </div>
   </div>
 </body>
+<? 
+  if ($session["representante"] == "URANET") {
+    $strLoginSimulado = "&login_simulado=S";
+  }
+?>
+<script language="javascript">
+  var janelaSeed = {};
+  janelaSeed.closed = true;
+  function abreSeed() {
+    strHelpOptions =  "location=no";
+    strHelpOptions += ",toolbar=no";
+    strHelpOptions += ",titlebar=no";
+    strHelpOptions += ",menubar=no";
+    strHelpOptions += ",status=no";
+    strHelpOptions += ",scrollbars=yes";
+    strHelpOptions += ",resizable=1";
+    strHelpOptions += ",width=" + screen.availWidth;
+    strHelpOptions += ",height=" + screen.availHeight;
+    if (janelaSeed.closed) {
+      janelaSeed = window.open('/kpi/?mku=MKUjB2H85eD1pSBSDTl2MfZrUwBbD4RVx31vRWYuqqgoaitHnrT2xzwp0L05nMwh8acMKEwC0wwim4l5wwCuXMpJnESWu8wwim4l5wwq10=<?echo $strLoginSimulado;?>', 'NV_401', strHelpOptions);
+    } else {
+      janelaSeed.focus();
+    }
+
+  }
+</script>
 <script src="kpiMinificado.js"></script>
 </html>
 

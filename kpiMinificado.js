@@ -13,6 +13,10 @@
         titulo: '',
         arrMensagens: [],
         haMensagens: false,
+        primeiraReqMsg: true,
+        intervaloReqMsg: 600000,
+        txtLido: 'Marcar como lido',
+        posicaoPadraoKPI: true
       }
     },
     methods: {
@@ -21,10 +25,18 @@
           this.anima('abrir')
           this.estadoModal = true
           top.postMessage('abrir', this.getBaseUrlApi())
+          if(!this.posicaoPadraoKPI){
+            document.querySelector('#container-simplificacao').classList.remove('cima')
+            document.querySelector('#container-simplificacao').classList.add('cima-aberto')
+          }
         }else{
           this.anima('fechar')
           this.estadoModal = false
           top.postMessage('fechar', this.getBaseUrlApi())
+          if(!this.posicaoPadraoKPI){
+            document.querySelector('#container-simplificacao').classList.remove('cima-aberto')
+            document.querySelector('#container-simplificacao').classList.add('cima')
+          }
         }
       },
       anima(acao){
@@ -111,13 +123,48 @@
           }
 
           if(response.status == 'OK'){
+
             this.arrMensagens = response.mensagens
             this.haMensagens = true
+
           }else{
             // console.log('Requisição Mensagem Status NOK: ', response)
             this.haMensagens = false
           }
         })
+      },
+      marcarMsgLida(msg, indice, elem){
+        let icone = elem.currentTarget
+
+        let idMsg = msg.id
+        
+        let objMsg = {
+          id: idMsg
+        }
+
+        objMsg = JSON.stringify(objMsg)
+
+        $.post(`${this.getBaseUrlApi()}webservices/intergrall-api/kpi/msg/lida`,
+        objMsg,
+        (response, status) => {
+          if(status !== 'success'){
+            console.log('Requisição marcar como lida Falhou!')
+            alert('Não foi possível completar a requisição')
+            return
+          }
+
+          if(response.status == 'OK'){
+
+            icone.classList.remove('far')
+            icone.classList.add('fas')
+            this.requisicaoMensagens()
+
+          }else{
+            console.log('Marcar como lida Status NOK')
+            alert('Não foi possível marcar como lida')
+          }
+        })
+
       },
       getBaseUrlApi(){
         if(window.location.hostname == 'localhost' || window.location.hostname == '192.168.204.126'){
@@ -138,7 +185,7 @@
             width: '100%',
             height: altura,
             type: 'bar',
-            stacked: true,
+            stacked: true
           },
           plotOptions: {
             bar: {
@@ -200,6 +247,7 @@
         if(value.titulo == '' ||  value.status == ''){
           return
         }else if(value.destaque !== 'SIM'){
+          // Caso precise zerar os que não possue destaque
           // if(value.status == 'S' || value.m0 == '' || value.top1_real == '' || value.top1 == '' || value.meta == ''){
           //   // return
           //   value.meta = 0
@@ -253,11 +301,29 @@
       //     default:
       //       return '';
       //   }
-      // }
+      // },
+      alterarPosicao(elem){
+        let icone = elem.currentTarget
+        icone.classList.toggle('rotate')
+
+        let container = document.querySelector('#container-simplificacao')
+        container.classList.toggle('baixo')
+        container.classList.toggle('cima')
+
+        this.posicaoPadraoKPI = !this.posicaoPadraoKPI
+        if(this.posicaoPadraoKPI){
+          top.postMessage('padrao', this.getBaseUrlApi())
+        }else{
+          top.postMessage('nPadrao', this.getBaseUrlApi())
+        }
+      },
+      abreSeed(){
+        console.log('Ok')
+      }
     },
     mounted(){
       this.requisicaoOpe()
       this.requisicaoMensagens()
-      setInterval(() => { this.requisicaoMensagens() }, 60000)
+      setInterval(() => { this.requisicaoMensagens() }, this.intervaloReqMsg)
     },
   })
