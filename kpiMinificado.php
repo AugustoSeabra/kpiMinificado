@@ -1,4 +1,4 @@
-<?php 
+<?php
   session_start();
   session_register("session");
   include "../../callcenter/cc_libcallcenter.php";
@@ -17,7 +17,6 @@
   <script src="jquery.js"></script>
   <link rel="stylesheet" href="bootstrap.min.css">
   <script src="bootstrap.min.js"></script>
-
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
   integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
   <link rel="stylesheet" href="kpiMinificado.css">
@@ -25,7 +24,7 @@
   <script src="apexcharts.js"></script>
 </head>
 <!-- <body> -->
-  <div id="container-simplificacao" class="baixo">
+  <div id="container-simplificacao" :class="!mudarClasse ? 'baixo' : 'cima'">
     <div class="button" v-on:click="toggleModal()">
       <div class="svg" v-html="svgAvatar"></div>
       <div class="icone-desempenho">
@@ -33,13 +32,13 @@
       </div>
     </div>
     <div class="alterar-posicao" v-if="!estadoModal">
-      <i class="fas fa-long-arrow-alt-up" id="i-alterar" v-on:click="alterarPosicao($event)"></i>
+      <i class="fas fa-long-arrow-alt-up" :title="tituloFlecha" :class="mudarClasse ? 'rotate': ''" id="i-alterar" v-on:click="alterarPosicao($event)"></i>
     </div>
     <div class="container-modal">
       <div class="conteudo-modal d-none">
         <div class="titulo-modal">
-          <h1> 
-            GAMEK Resumo 
+          <h1>
+            GAMEK Resumo
             <a class="link-gamek" href="javascript:abreSeed()" title="Abrir GAMEK">
               <i class="fas fa-external-link-alt"></i>
             </a>
@@ -47,7 +46,7 @@
             <!-- </a> -->
           </h1>
         </div>
-        <hr class="separador-modal">
+        <!-- <hr class="separador-modal"> -->
         <div id="container-graficos">
           <div id="graficos">  </div>
         </div>
@@ -58,12 +57,12 @@
             <div class="carousel-inner">
             <template v-if="haMensagens">
               <div class="item" :class="index == 0 ? 'active' :  ''" v-for="(msg, index) in arrMensagens" :key="index">
-                <i class="far fa-bookmark pointer" v-on:click="marcarMsgLida(msg, index, $event)" :title="txtLido"></i>
+                <i class="far fa-check-square pointer" v-on:click="marcarMsgLida(msg, index, $event)" :title="txtLido"></i>
                 <p>{{ msg.mensagem }}</p>
               </div>
             </template>
             <div v-else>
-              <div class="item active">
+              <div class="item active sem-mensagens">
                 <p> Não há mensagens para mostrar </p>
               </div>
             </div>
@@ -82,7 +81,7 @@
     </div>
   </div>
 </body>
-<? 
+<?
   if ($session["representante"] == "URANET") {
     $strLoginSimulado = "&login_simulado=S";
   }
@@ -110,6 +109,3 @@
 </script>
 <script src="kpiMinificado.js"></script>
 </html>
-
-
-<!-- v8 cabecalho || v8 principal (esse) -->

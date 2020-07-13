@@ -7,8 +7,11 @@
         dadosTabelaDestaqueS: [],
         dadosTabelaDestaqueN: [],
         valoresMeta: [],
+        metaFormatada: [],
         valoresVoce: [],
+        voceFormatada: [],
         valoresPrimeiro: [],
+        primeiroFormatada: [],
         todosTitulos: [],
         titulo: '',
         arrMensagens: [],
@@ -16,7 +19,9 @@
         primeiraReqMsg: true,
         intervaloReqMsg: 600000,
         txtLido: 'Marcar como lido',
-        posicaoPadraoKPI: true
+        posicaoPadraoKPI: true,
+        tituloFlecha: 'Subir GAMEK Minificado',
+        mudarClasse: false
       }
     },
     methods: {
@@ -45,7 +50,7 @@
           // document.querySelector('.container-modal').classList.remove('fechaModal')
 
           setTimeout(() => { document.querySelector('.conteudo-modal').classList.remove('d-none') }, 510)
-          
+
           document.querySelector('.icone-desempenho').classList.add('diminuiIcone')
           document.querySelector('.svg').classList.add('diminuiSvg')
           document.querySelector('.button').classList.add('escondePerfil')
@@ -73,16 +78,16 @@
         if(!urlAvatar){
           urlAvatar = 'https://avataaars.io/?avatarStyle=Circle&topType=NoHair&accessoriesType=Blank&hairColor=Black&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Tanned'
         }
-  
+
         let objAvatar = {
           url: urlAvatar
         }
 
         objAvatar = JSON.stringify(objAvatar)
 
-        $.post(`${this.getBaseUrlApi()}webservices/intergrallapi/kpi/avatar/request`, 
+        $.post(`${this.getBaseUrlApi()}webservices/intergrallapi/kpi/avatar/request`,
         objAvatar,
-        (response) => { 
+        (response) => {
           if(response.status == 'OK'){
             this.svgAvatar = response.dados
             setTimeout(() => {this.ajustaViewBox()}, 100)
@@ -93,19 +98,18 @@
         })
       },
       requisicaoOpe(){
-        $.post(`${this.getBaseUrlApi()}webservices/intergrallapi/kpi/operacional`, 
+        $.post(`${this.getBaseUrlApi()}webservices/intergrallapi/kpi/operacional`,
         '',
-        (response) => { 
+        (response) => {
           if(response.status == 'OK'){
             this.requisicaoSvgAvatar(response.operador.avatar)
             this.dadosTabelaDestaqueS = response.kpis.filter(this.filtraTabelaDestaqueS)
             this.dadosTabelaDestaqueN = response.kpis.filter(this.filtraTabelaDestaqueN)
-            
+
+            this.titulo = 'Indicadores do Mês'
             if(!this.verificaGrafVazio(this.dadosTabelaDestaqueS)){
-              this.titulo = 'Principais KPIs'
               this.filtraValores(this.dadosTabelaDestaqueS)
             }else{
-              this.titulo = "KPIs"
               this.filtraValores(this.dadosTabelaDestaqueN)
             }
           }else{
@@ -125,7 +129,9 @@
           if(response.status == 'OK'){
 
             this.arrMensagens = response.mensagens
-            this.haMensagens = true
+            if(this.arrMensagens.length){
+              this.haMensagens = true
+            }
 
           }else{
             // console.log('Requisição Mensagem Status NOK: ', response)
@@ -137,7 +143,7 @@
         let icone = elem.currentTarget
 
         let idMsg = msg.id
-        
+
         let objMsg = {
           id: idMsg
         }
@@ -175,22 +181,27 @@
       },
       criaGrafico(){
 
-        let altura = this.ajustaAltura()
-
+        
+        // let altura = this.ajustaAltura()
         var options = {
-          series: [{name: 'Meta', data: this.valoresMeta}, {name: 'Você', data: this.valoresVoce}, {name: '1º Colocado', data: this.valoresPrimeiro}],
-          colors: ['#0367A6', '#FB8C00', '#009921'],
-          // colors: ["#CCC", "#555", "#AAA"],
+          series: [{name: 'Você', data: this.valoresVoce}, {name: 'Meta', data: this.valoresMeta}, {name: '1º Colocado', data: this.valoresPrimeiro}],
+          // 
+          // colors: ['#FB8C00', '#009921'],
+          colors: ["#FB8C00", "#0367A6", "#009921"],
           chart: {
             width: '100%',
-            height: altura,
+            height: '100%', // altura
             type: 'bar',
-            stacked: true
+            // stacked: true
           },
           plotOptions: {
             bar: {
               horizontal: true,
             },
+          },
+          dataLabels: {
+            enabled: false,
+            // enabledOnSeries: vm.teste()
           },
           stroke:{
             width: 1,
@@ -202,17 +213,61 @@
           legend: {
             position: 'top',
           },
-          yaxis: {
-            title: {
-              text: undefined,
-            },
-          },
           xaxis: {
             categories: this.todosTitulos,
             labels: {
               show: false
             }
           },
+          tooltip: {
+            enabled: true,
+            followCursor: true,
+            style: {
+              fontSize: '12px',
+            },
+            onDatasetHover: {
+              highlightDataSeries: true,
+            },
+            y: {
+              formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+                if(seriesIndex == '0'){
+                  if(vm.voceFormatada[dataPointIndex]){
+                    return vm.voceFormatada[dataPointIndex]
+                  }else{
+                    return '0'
+                  }
+                }else if(seriesIndex == '1'){
+                  if(vm.metaFormatada[dataPointIndex]){
+                    return vm.metaFormatada[dataPointIndex]
+                  }else{
+                    return '0'
+                  }
+                }else{
+                  if(vm.primeiroFormatada[dataPointIndex]){
+                    return vm.primeiroFormatada[dataPointIndex]
+                  }else{
+                    return '0'
+                  }
+                }
+                // return value
+              },
+              title: {
+                  formatter: (seriesName) => seriesName,
+              },
+            },
+            marker: {
+              show: true,
+            },
+            items: {
+              display: "flex",
+            },
+            fixed: {
+              enabled: false,
+              position: 'topRight',
+              offsetX: 0,
+              offsetY: 0,
+            },
+          }
         };
 
         var chart = new ApexCharts(document.querySelector('#graficos'), options);
@@ -221,13 +276,13 @@
         this.cont = 1
       },
       ajustaAltura(){
-        if(this.valoresMeta.length == 1){
-          return '155px'
-        }else if(this.valoresMeta.length == 2){
-          return '240px'
-        }else{
-          return '100%'
-        }
+        // if(this.valoresMeta.length == 1){
+          // return '155px'
+        // }else if(this.valoresMeta.length == 2){
+          // return '240px'
+        // }else{
+          // return '100%'
+        // }
       },
       filtraTabelaDestaqueS(value){
         if(value.titulo == '' ||  value.status == ''){
@@ -271,8 +326,14 @@
 
           for(let i = 0; i < array.length; i++){
             this.valoresMeta.push(parseFloat(array[i].meta).toFixed(1))
+            this.metaFormatada.push(array[i].meta_formatada)
+
             this.valoresVoce.push(parseFloat(array[i].m0).toFixed(1))
+            this.voceFormatada.push(array[i].m0_formatada)
+
             this.valoresPrimeiro.push(parseFloat(array[i].top1).toFixed(1))
+            this.primeiroFormatada.push(array[i].top1_formatada)
+
             this.todosTitulos.push(array[i].titulo)
           }
 
@@ -303,22 +364,23 @@
       //   }
       // },
       alterarPosicao(elem){
-        let icone = elem.currentTarget
-        icone.classList.toggle('rotate')
+        // let icone = elem.currentTarget
+        // icone.classList.toggle('rotate')
 
-        let container = document.querySelector('#container-simplificacao')
-        container.classList.toggle('baixo')
-        container.classList.toggle('cima')
+        // let container = document.querySelector('#container-simplificacao')
+        // container.classList.toggle('baixo')
+        // container.classList.toggle('cima')
+
+        this.mudarClasse = !this.mudarClasse
 
         this.posicaoPadraoKPI = !this.posicaoPadraoKPI
         if(this.posicaoPadraoKPI){
           top.postMessage('padrao', this.getBaseUrlApi())
+          this.tituloFlecha = 'Subir GAMEK Minificado'
         }else{
           top.postMessage('nPadrao', this.getBaseUrlApi())
+          this.tituloFlecha = 'Descer GAMEK Minificado'
         }
-      },
-      abreSeed(){
-        console.log('Ok')
       }
     },
     mounted(){
