@@ -179,20 +179,14 @@
           return 'https://'+window.location.hostname+'/'
         }
       },
-      criaGrafico(){
-
-        
-        // let altura = this.ajustaAltura()
+      criaGrafico(){  
         var options = {
           series: [{name: 'Você', data: this.valoresVoce}, {name: 'Meta', data: this.valoresMeta}, {name: '1º Colocado', data: this.valoresPrimeiro}],
-          // 
-          // colors: ['#FB8C00', '#009921'],
           colors: ["#FB8C00", "#0367A6", "#009921"],
           chart: {
             width: '100%',
-            height: '100%', // altura
+            height: '100%',
             type: 'bar',
-            // stacked: true
           },
           plotOptions: {
             bar: {
@@ -275,15 +269,6 @@
 
         this.cont = 1
       },
-      ajustaAltura(){
-        // if(this.valoresMeta.length == 1){
-          // return '155px'
-        // }else if(this.valoresMeta.length == 2){
-          // return '240px'
-        // }else{
-          // return '100%'
-        // }
-      },
       filtraTabelaDestaqueS(value){
         if(value.titulo == '' ||  value.status == ''){
           return
@@ -351,26 +336,7 @@
           console.log('Não há registros')
         }
       },
-      // setSeta(seta){
-      //   switch(seta){
-      //     case 'up':
-      //       return '<i class="fas fa-sort-up"></i>';
-      //     case 'down':
-      //       return '<i class="fas fa-sort-down"></i>';
-      //     case 'mesmo':
-      //       return '<i class="fas fa-sort-up"></i>';
-      //     default:
-      //       return '';
-      //   }
-      // },
-      alterarPosicao(elem){
-        // let icone = elem.currentTarget
-        // icone.classList.toggle('rotate')
-
-        // let container = document.querySelector('#container-simplificacao')
-        // container.classList.toggle('baixo')
-        // container.classList.toggle('cima')
-
+      alterarPosicao(){
         this.mudarClasse = !this.mudarClasse
 
         this.posicaoPadraoKPI = !this.posicaoPadraoKPI
@@ -380,6 +346,12 @@
         }else{
           top.postMessage('nPadrao', this.getBaseUrlApi())
           this.tituloFlecha = 'Descer GAMEK Minificado'
+        }
+      },
+      fecharGamek(){
+        if(window.confirm('Para abrir novamente, clique na bandeira que abre o Gamek')){
+          let container = document.querySelector('#container-simplificacao')
+          container.classList.add('d-none')
         }
       }
     },

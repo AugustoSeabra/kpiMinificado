@@ -34,6 +34,9 @@
     <div class="alterar-posicao" v-if="!estadoModal">
       <i class="fas fa-long-arrow-alt-up" :title="tituloFlecha" :class="mudarClasse ? 'rotate': ''" id="i-alterar" v-on:click="alterarPosicao($event)"></i>
     </div>
+    <div class="fechar-miniGamek" v-if="!estadoModal">
+      <i class="fas fa-times" title="Fechar Gamek Resumo" v-on:click="fecharGamek()"></i>
+    </div>
     <div class="container-modal">
       <div class="conteudo-modal d-none">
         <div class="titulo-modal">

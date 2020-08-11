@@ -13,7 +13,7 @@ body{ background-color: transparent; }
 }
 
 .baixo{
-  bottom: 25px;
+  bottom: 30px;
 }
 
 .cima{
@@ -22,6 +22,25 @@ body{ background-color: transparent; }
 
 .cima-aberto{
   top: 65px;
+}
+
+.fechar-miniGamek{
+  position: relative;
+}
+
+.fechar-miniGamek i{
+  position: absolute;
+  right: 80px;
+  top: -80px;
+  cursor: pointer;
+  font-size: 1.7rem;
+  color: #E22427;
+  opacity: .8;
+  transition-duration: .3s;
+}
+
+.fechar-miniGamek i:hover{
+  opacity: 1;
 }
 
 .button{
@@ -196,7 +215,7 @@ body{ background-color: transparent; }
   100%{
     top: 35px;
     left: 45px;
-    z-index: 2
+    z-index: 2147483647
   }
 }
 
@@ -217,8 +236,8 @@ body{ background-color: transparent; }
     height: var(--tamanhoInicial);
   }
   100%{
-    width: var(--tamanhoAumentado);
-    height: var(--tamanhoAumentado);
+    width: var(--tamanhoInicial);
+    height: var(--tamanhoInicial);
   }
 }
 
@@ -235,8 +254,8 @@ body{ background-color: transparent; }
 
 @keyframes ajustaIcone{
   0%{
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
     font-size: 2rem;
     background-color: #222
   }
@@ -265,6 +284,10 @@ body{ background-color: transparent; }
   position: absolute;
   width: 100%;
   bottom: 0;
+}
+
+.apareceConteudo{
+  z-index: 2147483646
 }
 
 .container-detalhes > i{
