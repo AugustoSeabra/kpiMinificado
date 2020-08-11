@@ -349,10 +349,7 @@
         }
       },
       fecharGamek(){
-        if(window.confirm('Para abrir novamente, clique na bandeira que abre o Gamek')){
-          let container = document.querySelector('#container-simplificacao')
-          container.classList.add('d-none')
-        }
+        top.postMessage('gamekFechado', this.getBaseUrlApi())
       }
     },
     mounted(){
