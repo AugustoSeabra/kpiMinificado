@@ -127,10 +127,16 @@
           }
 
           if(response.status == 'OK'){
+            
+            console.log(this.arrMensagens)
 
             this.arrMensagens = response.mensagens
             if(this.arrMensagens.length){
               this.haMensagens = true
+              top.postMessage('haMensagens', this.getBaseUrlApi())
+            }else{
+              this.haMensagens = false
+              top.postMessage('naoHaMensagens', this.getBaseUrlApi())
             }
 
           }else{

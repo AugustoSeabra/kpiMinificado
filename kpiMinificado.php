@@ -25,15 +25,42 @@
 </head>
 <!-- <body> -->
   <div id="container-simplificacao" :class="!mudarClasse ? 'baixo' : 'cima'">
+    <!-- BTN abrir e fechar -->
     <div class="button" v-on:click="toggleModal()">
       <div class="svg" v-html="svgAvatar"></div>
       <div class="icone-desempenho">
         <i :class="estadoModal == false ? 'fas fa-chart-line' : 'fas fa-times'"></i>
       </div>
     </div>
+    <!-- BTN alterar posicao -->
     <div class="alterar-posicao" v-if="!estadoModal">
       <i class="fas fa-long-arrow-alt-up" :title="tituloFlecha" :class="mudarClasse ? 'rotate': ''" id="i-alterar" v-on:click="alterarPosicao($event)"></i>
     </div>
+
+    <!-- MSGS Feedback -->
+    <div class="msg-feedback-container">
+      <div class="msg-feedback" :class="{'d-none' : !haMensagens}">
+        <div id="carousel-mensagens" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            <template v-if="haMensagens">
+              <div class="item" :class="index == 0 ? 'active' :  ''" v-for="(msg, index) in arrMensagens" :key="index">
+                <div class="item-content">
+                  <i class="far fa-check-square pointer" v-on:click="marcarMsgLida(msg, index, $event)" :title="txtLido"></i>
+                  <p>{{ msg.mensagem }}</p>
+                </div>
+              </div>
+            </template>
+            <div v-else>
+              <div class="item active sem-mensagens">
+                <p> Não há mensagens para mostrar </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fechar MiniGAMEK -->
     <div class="fechar-miniGamek" v-if="!estadoModal">
       <i class="fas fa-times" title="Fechar Gamek Resumo" v-on:click="fecharGamek()"></i>
     </div>
@@ -54,7 +81,7 @@
           <div id="graficos">  </div>
         </div>
         <!-- <hr class="separador-modal"> -->
-        <div class="container-detalhes">
+        <!-- <div class="container-detalhes">
           <i class="fas fa-robot"></i>
           <div id="carousel-mensagens" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
@@ -68,7 +95,7 @@
               <div class="item active sem-mensagens">
                 <p> Não há mensagens para mostrar </p>
               </div>
-            </div>
+            </div> -->
             <!-- <a class="left carousel-control controles" href="#myCarousel" data-slide="prev">
               <span class="glyphicon glyphicon-chevron-left"></span>
               <span class="sr-only">Anterior</span>
@@ -77,8 +104,8 @@
               <span class="glyphicon glyphicon-chevron-right"></span>
               <span class="sr-only">Próximo</span>
             </a> -->
-            </div>
-          </div>
+            <!-- </div>
+          </div> -->
         </div>
       </div>
     </div>
