@@ -3,6 +3,8 @@
 :root{
   --tamanhoInicial: 80px;
   --tamanhoAumentado: 90px;
+
+  --cor-msg-feedback: #ffeedd;
 }
 
 body{ background-color: transparent; }
@@ -37,7 +39,7 @@ body{ background-color: transparent; }
   height: 70px;
   max-height: 75px;
   font-size: .975rem;
-  background-color: #C0C5C1;
+  background-color: var(--cor-msg-feedback);
   border-radius: 10px;
 }
 
@@ -48,7 +50,7 @@ body{ background-color: transparent; }
   position: absolute;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-top: 10px solid #C0C5C1;
+  border-top: 10px solid var(--cor-msg-feedback);
   bottom: -10px;
   right: 15px;
 }
@@ -67,14 +69,13 @@ body{ background-color: transparent; }
 
 .item-content{
   display: flex;
-  justify-content: space-around;
   align-items: center;
   width: 100%;
   margin: 15px 5px;
 }
 
 .item-content p{
-  margin: 0;
+  margin: 0 0 0 3px;
 }
 
 .item-content i{
@@ -163,7 +164,8 @@ body{ background-color: transparent; }
   background-color: #222;
   text-align: center;
   padding: 5px;
-  color: #FFF
+  color: #FFF;
+  max-height: 47px;
 }
 
 .titulo-modal h1{
@@ -190,10 +192,10 @@ body{ background-color: transparent; }
 }
 
 #container-graficos{
-  max-height: 281px;
+  max-height: 350px;
   overflow-y: auto;
   overflow-x: hidden;
-  scrollbar-color: #736B66 rgba(0,0,0,0.8);
+  scrollbar-color: #736B66 #222;
   scrollbar-width: thin;
 }
 
@@ -205,7 +207,7 @@ body{ background-color: transparent; }
 
 #container-graficos::-webkit-scrollbar-track{ background-color: #736B66 }
 #container-graficos::-webkit-scrollbar{ width: 10px }
-#container-graficos::-webkit-scrollbar-thumb{ background-color: rgba(0, 0, 0, 0.8) }
+#container-graficos::-webkit-scrollbar-thumb{ background-color: #222 }
 
 .tooltip{
   color: #FFF;
