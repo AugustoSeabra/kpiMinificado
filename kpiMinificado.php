@@ -24,7 +24,7 @@
   <script src="apexcharts.js"></script>
 </head>
 <!-- <body> -->
-  <div id="container-simplificacao" :class="!mudarClasse ? 'baixo' : 'cima'">
+  <div id="container-simplificacao" :class="{'baixo' : !mudarClasse, 'cima' : haMensagens && mudarClasse, 'cima-sem-msg' : mudarClasse && !haMensagens}">
     <!-- BTN abrir e fechar -->
     <div class="button" v-on:click="toggleModal()">
       <div class="svg" v-html="svgAvatar"></div>

@@ -19,7 +19,11 @@ body{ background-color: transparent; }
 }
 
 .cima{
-  top: 165px
+  top: 163px;
+}
+
+.cima-sem-msg{
+  top: 153px;
 }
 
 .cima-aberto{
@@ -36,8 +40,8 @@ body{ background-color: transparent; }
   left: -230px;
 
   width: 200px;
-  height: 70px;
-  max-height: 75px;
+  height: 65px;
+  max-height: 70px;
   font-size: .975rem;
   background-color: var(--cor-msg-feedback);
   border-radius: 10px;

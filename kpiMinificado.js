@@ -26,21 +26,34 @@
     },
     methods: {
       toggleModal() {
+        const containerSimplificacao = document.querySelector('#container-simplificacao')
         if(this.estadoModal == false){
           this.anima('abrir')
           this.estadoModal = true
           top.postMessage('abrir', this.getBaseUrlApi())
           if(!this.posicaoPadraoKPI){
-            document.querySelector('#container-simplificacao').classList.remove('cima')
-            document.querySelector('#container-simplificacao').classList.add('cima-aberto')
+
+            if(this.haMensagens){
+              containerSimplificacao.classList.remove('cima')
+            }else{
+              containerSimplificacao.classList.remove('cima-sem-msg')
+            }
+
+            containerSimplificacao.classList.add('cima-aberto')
           }
         }else{
           this.anima('fechar')
           this.estadoModal = false
           top.postMessage('fechar', this.getBaseUrlApi())
           if(!this.posicaoPadraoKPI){
-            document.querySelector('#container-simplificacao').classList.remove('cima-aberto')
-            document.querySelector('#container-simplificacao').classList.add('cima')
+            
+            if(this.haMensagens){
+              containerSimplificacao.classList.add('cima')
+            }else{
+              containerSimplificacao.classList.add('cima-sem-msg')
+            }
+
+            containerSimplificacao.classList.remove('cima-aberto')
           }
         }
       },
