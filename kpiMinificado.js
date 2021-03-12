@@ -115,9 +115,13 @@
         '',
         (response) => {
           if(response.status == 'OK'){
-            this.requisicaoSvgAvatar(response.operador.avatar)
-            this.dadosTabelaDestaqueS = response.kpis.filter(this.filtraTabelaDestaqueS)
-            this.dadosTabelaDestaqueN = response.kpis.filter(this.filtraTabelaDestaqueN)
+            if(response.operador){
+              this.requisicaoSvgAvatar(response.operador.avatar)
+            }
+            if(response.kpis){
+              this.dadosTabelaDestaqueS = response.kpis.filter(this.filtraTabelaDestaqueS)
+              this.dadosTabelaDestaqueN = response.kpis.filter(this.filtraTabelaDestaqueN)
+            }
 
             this.titulo = 'Indicadores do Mês'
             if(!this.verificaGrafVazio(this.dadosTabelaDestaqueS)){
